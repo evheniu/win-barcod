@@ -1,0 +1,1 @@
+>pyinstaller --onefile --windowed --icon=BADER.ico --add-data favicon.ico;. --add-data "C:/Python36-32/Lib/site-packages/barcode";./barcode --add-data biz-ex-logo.png;. --add-data arial.ttf;. "Label for bach scan v5.py"
