@@ -1,0 +1,17 @@
+astroid @ file:///C:/ci/astroid_1592487315634/work
+Babel @ file:///tmp/build/80754af9/babel_1605108370292/work
+certifi==2020.11.8
+colorama @ file:///tmp/build/80754af9/colorama_1603211150991/work
+isort @ file:///tmp/build/80754af9/isort_1602603989581/work
+lazy-object-proxy==1.4.3
+mccabe==0.6.1
+Pillow==8.0.1
+pylint @ file:///C:/ci/pylint_1598617153160/work
+pypiwin32==223
+python-barcode==0.13.1
+pytz==2020.1
+pywin32==300
+six @ file:///C:/ci/six_1605187374963/work
+toml @ file:///tmp/build/80754af9/toml_1592853716807/work
+wincertstore==0.2
+wrapt==1.11.2

@@ -1,11 +1,11 @@
-﻿#import os
+﻿import os
 import sys
 import tempfile
 import subprocess
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from PIL import ImageWin #Image, ImageFont, ImageDraw, PngImagePlugin
+from PIL import ImageWin
 from barcode.writer import ImageWriter
 from barcode.writer import *
 import barcode
@@ -23,11 +23,11 @@ def resource_path(relative_path):
 
 font_style= resource_path("Arial.tft")
 
-#Chose printer
-def choose(event):
+#Select printer
+def select_printer(event):
     return select.get()
 
-#chose leather type
+#Select leather type
 select_type = ['Dakota', 'Saddle', 'Spalt', 'Merino', 'Perlnappa', 'Feinnappa', 'Vachette', 'NE-51']
 def check_select_type(event):
     return str(leather_type.get())
@@ -38,24 +38,24 @@ def Ean():
     ean = barcode.get('Code128', str(leather_field.get()), writer=barcode.writer.ImageWriter())
     ean.save(tempfile.gettempdir() + "\\barcode", {"module_width":0.25, "module_height":5, "font_size": 14, "text_distance": 3, "quiet_zone": 3})
 
-#Work run
+#Start work
 def get_bach():
-    g_bach = str(leather_field.get())
-    g_loss = str(loss_calc_field.get())
-    g_type = str(leather_type.get())
+    get_bach = str(leather_field.get())
+    get_loss = str(loss_calc_field.get())
+    get_type = str(leather_type.get())
     barcode_path = os.path.join(tempfile.gettempdir(), 'barcode.png')
     file_path = os.path.join(tempfile.gettempdir(), 'file.png')
     if os.path.isfile(barcode_path):
         os.remove(barcode_path)
     if os.path.isfile(file_path):
         os.remove(file_path)
-    if g_bach =='':
+    if get_bach =='':
         messagebox.showinfo("Партія шкіри:", "Поле партії не може бути пустим!")
-    elif not g_type in select_type:
+    elif not get_type in select_type:
         messagebox.showinfo("Тип шкіри:", "Оберіть тип шкіри!")
-    elif g_loss == '':
-        messagebox.showinfo("№ Розрахунку витрат:", "Поле розрахунку витрат не може бути пустим!")
-    elif g_bach != '' and g_loss != '':
+    elif get_loss == '' or len(get_loss) < 6:
+        messagebox.showinfo("№ Розрахунку витрат:", "Поле розрахунку витрат не може бути пустим, або містити не відповідні дані!")
+    elif get_bach != '' and get_loss != '':
         if __name__ == '__main__':
             Ean()
             subprocess.call(['attrib', '+h', barcode_path])
@@ -70,10 +70,10 @@ def get_bach():
         fnt = ImageFont.truetype("arial.ttf", 36)
         fnt_t = ImageFont.truetype("arial.ttf", 18)
         d = ImageDraw.Draw(txt)
-        w,h = d.textsize(g_loss)
-        w1,h1 = d.textsize(g_type)
-        d.text(((float(W/2)-(w*1.5)), (float(H/3)+(h*2))), g_loss, font=fnt, fill=(0,0,0,255))
-        d.text(((float(W / 2) - (w1 * 0.7)), (float(H / 2.2) + (h1 * 5.1))), g_type, (0,0,0), font=fnt_t )# fill=(255, 255, 255, 255)
+        w,h = d.textsize(get_loss)
+        w1,h1 = d.textsize(get_type)
+        d.text(((float(W/2)-(w*1.5)), (float(H/3)+(h*2))), get_loss, font=fnt, fill=(0,0,0,255))
+        d.text(((float(W / 2) - (w1 * 0.7)), (float(H / 2.2) + (h1 * 5.1))), get_type, (0,0,0), font=fnt_t )# fill=(255, 255, 255, 255)
         txt.save(file_path, "PNG")
         subprocess.call(['attrib', '+h', file_path])
         txt.close()
@@ -176,7 +176,7 @@ frame_print_label.place(x=10,y=50)
 select = ttk.Combobox(frame_print_label,values = res)
 select.set(res[0])
 select.grid(ipadx=90,ipady=2,column=0,row=2)
-select.bind("<<ComboboxSelected>>", choose)
+select.bind("<<ComboboxSelected>>", select_printer)
 
 #-----Entry data menu-----------------------------------------------------------------------------------------------
 leather_label = tk.Label(root, text="Партія шкіри:")
